@@ -14,13 +14,19 @@
           </li>
           <li v-if="!isAuth">
             <router-link to="/login" tag="button" class="btn btn-success">            
-              <!-- <i class="fa fa-google-plus"></i> -->
+              <i class="fas fa-coffee"></i>
+              <!-- <font-awesome-icon :icon="['fab', 'google-plus']" >></font-awesome-icon>
+              <font-awesome-icon icon="coffee" >></font-awesome-icon>
+              <font-awesome-icon :icon="['fa', 'coffee']" ></font-awesome-icon>> -->
               Login
             </router-link>
           </li>
           <li v-if="isAuth===true">
             <router-link to="/login" tag="button" class="btn btn-success">            
-              <!-- <i class="fa fa-google-plus"></i> -->
+              <i class="fas fa-coffee"></i>
+              <!-- <font-awesome-icon :icon="['fab', 'google-plus']" >></font-awesome-icon>
+              <font-awesome-icon icon="coffee" >></font-awesome-icon>
+              <font-awesome-icon :icon="['fa', 'coffee']" >></font-awesome-icon> -->
               {{user.displayName}}
             </router-link>
           </li>
