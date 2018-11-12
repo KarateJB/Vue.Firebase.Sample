@@ -1,5 +1,6 @@
 import { ProdTypeEnum } from './prod-types'
 
+
 export default class ProdService {
 
     getProductTypes() {
@@ -18,5 +19,4 @@ export default class ProdService {
 
         return prodTypes;
     }
-
 }

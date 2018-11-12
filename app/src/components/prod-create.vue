@@ -61,7 +61,6 @@ export default {
   methods: {
     changeSelectedType() {
       var vm = this;
-      console.log(vm.selectedProdType);
       switch (vm.selectedProdType.id) {
         case 1:
           vm.prodHint = "Enter a book's title..";
@@ -79,18 +78,23 @@ export default {
       this.prod.typeId = this.selectedProdType.id;
       this.prod.type = this.selectedProdType.name;
       console.log(this.prod);
-      //   this.prodService
-      //     .create(this.prod)
-      //     .then(() => {
-      //       var rt = this.router;
-      //       swal("Success!", "The data has been saved.", "success").then(
-      //         function() {
-      //           //Return to Index
-      //           rt.navigate(["Product/Index"]);
-      //         }
-      //       );
-      //     })
-      //     .catch(e => swal("Error!", "Access denied!", "error"));
+
+      //   let fbArray=[];
+      //   this.$bindAsArray('fbArray', firebaseDb.ref('Demo/products'));
+      let fbObject = {};
+      this.$bindAsObject(
+        "fbObject",
+        firebaseDb.ref("Demo/products").child(this.prod.id)
+      );
+
+      //   this.$firebaseRefs.fbArray.push(this.prod)
+      this.$firebaseRefs.fbObject
+        .set(this.prod)
+        .then(() => {
+          this.$toastr.s("The data has been saved!");
+          this.$router.replace("/prod-list");
+        })
+        .catch(e => this.$toastr.e("Error! Access denied!"));
     },
     setImgUri(event) {
       this.prod.imgUri = event;
