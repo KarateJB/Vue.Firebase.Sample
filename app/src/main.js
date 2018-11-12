@@ -7,9 +7,11 @@ import Login from './components/login'
 import ProdList from './components/prod-list'
 /* vue-numeric */
 import VueNumeric from 'vue-numeric'
+//vue-toastr
+import Toastr from 'vue-toastr';
 /* font-awesome*/
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee, faCrosshairs, faSave, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee, faCrosshairs, faSave, faPlus, faShoppingCart, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { dom } from '@fortawesome/fontawesome-svg-core'
@@ -26,8 +28,12 @@ Vue.config.productionTip = false;
 //vue-numeric
 Vue.use(VueNumeric);
 
+//vue-toastr
+require('vue-toastr/dist/vue-toastr.css');
+Vue.use(Toastr, { /* options */ });
+
 //font-awesome
-library.add(faCoffee,faCrosshairs, faSave, faPlus, faMinus, faGooglePlus);
+library.add(faCoffee,faCrosshairs, faSave, faPlus, faMinus,faShoppingCart, faGooglePlus);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 dom.watch(); //Optional, for converting i tags to svg tags
 

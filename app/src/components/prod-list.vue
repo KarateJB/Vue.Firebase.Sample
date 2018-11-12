@@ -1,10 +1,10 @@
 <template>
+  <div>
     <div class="container">
         <div class="row">
             <div class="col-md-1">
             </div>
             <div class="col-md-10">
-              <pre>{{ fbObject }}</pre>
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
@@ -22,8 +22,8 @@
                     <td>{{ item.title }}</td>
                     <td>
                       <vue-numeric currency="$" separator="," 
-                                   v-model="item.price" 
-                                   :read-only=true></vue-numeric>
+                                  v-model="item.price" 
+                                  :read-only=true></vue-numeric>
                     </td>
                     <td>
                       <prod-booking v-model="item.count" :shop-item="item"></prod-booking>
@@ -36,6 +36,10 @@
             </div>
         </div>
     </div>
+    <div class="shopcart" @click="goToShopcart()">
+      <font-awesome-icon :icon="['fas', 'shopping-cart']" size="3x"/>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -66,6 +70,13 @@ export default {
   //     }
   //   }
   // },
+  methods:{
+    goToShopcart(){
+      // alert()
+      this.$toastr.s("Not implement yet!");
+      // console.log(this.fbArray);
+    }
+  },
   mounted(){
     var vm = this;
     // let products = db.ref('/Demo/products/');
@@ -74,11 +85,29 @@ export default {
     vm.$bindAsObject('fbObject', firebaseDb.ref('Demo/products').child('800afd3c-1615-49ba-b33d-497842af6c82'));
   },
   created(){
-    // console.log(this.fbArray);
-    // console.log(this.fbObject);
   }
 }
 </script>
 
 <style>
+
+
+.footer {
+  position:fixed;
+  bottom:0;
+  height:auto;
+  margin-top:40px;
+  width:100%;
+  text-align:center;
+}
+
+.shopcart {
+  position:fixed;
+  bottom:0;
+  right:0;
+  height:auto;
+  margin:40px 40px 40px 40px;
+}
+
+
 </style>
