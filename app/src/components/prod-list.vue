@@ -12,6 +12,7 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Price</th>
+                    <th>Shopping Cart</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -19,7 +20,14 @@
                     <td>{{ item.type }}</td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
-                    <td>{{ item.price }}</td>
+                    <td>
+                      <vue-numeric currency="$" separator="," 
+                                   v-model="item.price" 
+                                   :read-only=true></vue-numeric>
+                    </td>
+                    <td>
+                      <prod-booking v-model="item.count" :shop-item="item"></prod-booking>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -32,8 +40,13 @@
 
 <script>
 
+import ProdBooking from "./prod-booking"
+
 export default {
   name: 'prod-list',
+  components:{
+    ProdBooking
+  },
   data () {
     return {
       fbArray: [],

@@ -19,6 +19,7 @@
     "firebase": "^5.5.8",
     "font-awesome": "^4.7.0",
     "vue": "^2.5.11",
+    "vue-numeric": "^2.3.0",
     "vue-router": "^3.0.1",
     "vuefire": "^1.4.5"
   },

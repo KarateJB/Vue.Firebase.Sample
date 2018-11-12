@@ -7,26 +7,26 @@
       <div class="topMenu" v-show="menuState==='in'">
         <ul>
           <li>
-            <router-link to="/prod-list"><i class="fa fa-file-powerpoint-o"></i>Buy something</router-link>
+            <router-link to="/prod-list">
+              <font-awesome-icon :icon="['fas', 'crosshairs']" spin />
+              Buy something
+            </router-link>
           </li>
           <li>
-            <router-link to="/orders"><i class="fa fa-file-powerpoint-o"></i>My order</router-link>
+            <router-link to="/orders">
+              <font-awesome-icon :icon="['fas', 'save']" />
+              My orders
+              </router-link>
           </li>
           <li v-if="!isAuth">
             <router-link to="/login" tag="button" class="btn btn-success">            
-              <i class="fas fa-coffee"></i>
-              <!-- <font-awesome-icon :icon="['fab', 'google-plus']" >></font-awesome-icon>
-              <font-awesome-icon icon="coffee" >></font-awesome-icon>
-              <font-awesome-icon :icon="['fa', 'coffee']" ></font-awesome-icon>> -->
+              <font-awesome-icon :icon="['fab', 'google-plus']" />
               Login
             </router-link>
           </li>
           <li v-if="isAuth===true">
             <router-link to="/login" tag="button" class="btn btn-success">            
-              <i class="fas fa-coffee"></i>
-              <!-- <font-awesome-icon :icon="['fab', 'google-plus']" >></font-awesome-icon>
-              <font-awesome-icon icon="coffee" >></font-awesome-icon>
-              <font-awesome-icon :icon="['fa', 'coffee']" >></font-awesome-icon> -->
+              <font-awesome-icon :icon="['fab', 'google-plus']" />
               {{user.displayName}}
             </router-link>
           </li>
