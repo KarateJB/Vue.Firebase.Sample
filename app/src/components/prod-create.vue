@@ -76,7 +76,6 @@ export default {
     },
     save() {
       if (this.isEdit === false) {
-          console.info('Create');
         //Create
         this.prod.id = appUtil.generateUUID();
         this.prod.typeId = this.selectedProdType.id;
@@ -88,7 +87,6 @@ export default {
         //   this.$firebaseRefs.fbArray.push(this.prod);
 
         /* Method 2. Use bindAsObject and assign the key value */
-        let fbObject = {};
         this.$bindAsObject(
           "fbObject",
           firebaseDb.ref("Demo/products").child(this.prod.id)
@@ -101,12 +99,10 @@ export default {
             this.$router.replace("/prod-list");
           })
           .catch(e => this.$toastr.e("Error! Access denied!"));
-      } 
-      else {
-          console.info('Edit');
-          console.log(this.prod);
+      } else {
 
         //Edit
+        delete this.prod[".key"]; //Must remove the ".key" property, see https://github.com/vuejs/vuefire#data-normalization
         this.prod.typeId = this.selectedProdType.id;
         this.prod.type = this.selectedProdType.name;
 
@@ -117,6 +113,10 @@ export default {
             this.$router.replace("/prod-list");
           })
           .catch(e => this.$toastr.e("Error! Access denied!"));
+
+          //Notice that you can refer to the property (ex. title) of the data as following
+          //and set it only but not the entire object
+          //this.fbBindAsObject("xxxx", firebaseDb.ref("Demo/products").child(itemId + "/title");
       }
     },
     setImgUri(event) {
@@ -135,12 +135,13 @@ export default {
       //Check if edit
       let encodeId = this.$route.params.id;
       let decodeId = decodeURIComponent(encodeId);
+
       let fbObject = {};
       this.fbBindAsObject(
         "prod",
         firebaseDb.ref("Demo/products").child(decodeId)
       ).then(() => {
-        console.log(this.prod);
+        // console.log(this.prod);
         this.selectedProdType = this.prodTypes.find(
           x => x.id === this.prod.typeId
         );

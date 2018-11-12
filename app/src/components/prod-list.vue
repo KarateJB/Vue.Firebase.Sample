@@ -91,14 +91,21 @@ export default {
   methods:{
     goToShopcart(){
       // alert()
-      this.$toastr.s("Not implement yet!");
+      this.$toastr.w("Not implement yet!");
       // console.log(this.fbArray);
     },
     edit(id){
       this.$router.replace("/prod-edit/" + encodeURIComponent(id));
     },
     remove(id){
-
+       this.$bindAsObject(
+          'removeObject', 
+          firebaseDb.ref('Demo/products').child(id));
+   
+       this.$firebaseRefs.removeObject.remove().then(()=>{
+         this.$toastr.i("The data has been removed!");
+         this.$unbind('removeObject');
+       });
     }
   },
   mounted(){
