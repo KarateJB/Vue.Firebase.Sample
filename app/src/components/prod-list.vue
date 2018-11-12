@@ -1,5 +1,17 @@
 <template>
   <div>
+    <div>
+      <div class="container">
+        <div class="row">
+          <div class="col col-md-8">
+            <router-link to="/prod-create" tag="button" class="btn btn-alert">            
+              Create
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
     <div class="container">
         <div class="row">
             <div class="col-md-1">

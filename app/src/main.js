@@ -5,6 +5,7 @@ import VueFire from 'vuefire'
 /* Components */
 import Login from './components/login'
 import ProdList from './components/prod-list'
+import ProdCreate from './components/prod-create'
 /* vue-numeric */
 import VueNumeric from 'vue-numeric'
 //vue-toastr
@@ -49,6 +50,7 @@ window.firebaseAuth = firebaseApp.auth();
 const routes = [
   { path: '/login', component: Login },
   { path: '/prod-list', component: ProdList },
+  { path: '/prod-create', component: ProdCreate },
    //{ path: '/orders', component: Orders },
    {path: '*', redirect: '/login'}
 ]
