@@ -25,6 +25,7 @@
                     <th>Title</th>
                     <th>Price</th>
                     <th>Shopping Cart</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,11 @@
                     </td>
                     <td>
                       <prod-booking v-model="item.count" :shop-item="item"></prod-booking>
+                    </td>
+                    <td>
+                        <input type="button" value="Edit" class="btn btn-info" @click="edit(item.id)" />
+                        &nbsp;
+                        <input type="button" value="Remove" class="btn btn-danger" @click="remove(item.id)" />
                     </td>
                   </tr>
                 </tbody>
@@ -87,6 +93,12 @@ export default {
       // alert()
       this.$toastr.s("Not implement yet!");
       // console.log(this.fbArray);
+    },
+    edit(id){
+      this.$router.replace("/prod-edit/" + encodeURIComponent(id));
+    },
+    remove(id){
+
     }
   },
   mounted(){

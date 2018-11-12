@@ -45,12 +45,12 @@ window.firebaseDb = firebaseApp.database();
 window.firebaseAuth = firebaseApp.auth();
 
 
-
 //Routing
 const routes = [
   { path: '/login', component: Login },
   { path: '/prod-list', component: ProdList },
   { path: '/prod-create', component: ProdCreate },
+  { path: '/prod-edit/:id', component: ProdCreate },
    //{ path: '/orders', component: Orders },
    {path: '*', redirect: '/login'}
 ]

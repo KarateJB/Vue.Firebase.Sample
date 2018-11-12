@@ -46,6 +46,7 @@ export default {
   name: "prod-create",
   data() {
     return {
+      isEdit: false, //Is in edit mode
       selectedProdType: {},
       prodHint: "",
       prod: {
@@ -74,35 +75,78 @@ export default {
       }
     },
     save() {
-      this.prod.id = appUtil.generateUUID();
-      this.prod.typeId = this.selectedProdType.id;
-      this.prod.type = this.selectedProdType.name;
-      console.log(this.prod);
+      if (this.isEdit === false) {
+          console.info('Create');
+        //Create
+        this.prod.id = appUtil.generateUUID();
+        this.prod.typeId = this.selectedProdType.id;
+        this.prod.type = this.selectedProdType.name;
 
-      //   let fbArray=[];
-      //   this.$bindAsArray('fbArray', firebaseDb.ref('Demo/products'));
-      let fbObject = {};
-      this.$bindAsObject(
-        "fbObject",
-        firebaseDb.ref("Demo/products").child(this.prod.id)
-      );
+        /* Method 1. Use bindAsArray, but the key will be created by Firebase */
+        //   let fbArray=[];
+        //   this.$bindAsArray('fbArray', firebaseDb.ref('Demo/products'));
+        //   this.$firebaseRefs.fbArray.push(this.prod);
 
-      //   this.$firebaseRefs.fbArray.push(this.prod)
-      this.$firebaseRefs.fbObject
-        .set(this.prod)
-        .then(() => {
-          this.$toastr.s("The data has been saved!");
-          this.$router.replace("/prod-list");
-        })
-        .catch(e => this.$toastr.e("Error! Access denied!"));
+        /* Method 2. Use bindAsObject and assign the key value */
+        let fbObject = {};
+        this.$bindAsObject(
+          "fbObject",
+          firebaseDb.ref("Demo/products").child(this.prod.id)
+        );
+
+        this.$firebaseRefs.fbObject
+          .set(this.prod)
+          .then(() => {
+            this.$toastr.s("The data has been saved!");
+            this.$router.replace("/prod-list");
+          })
+          .catch(e => this.$toastr.e("Error! Access denied!"));
+      } 
+      else {
+          console.info('Edit');
+          console.log(this.prod);
+
+        //Edit
+        this.prod.typeId = this.selectedProdType.id;
+        this.prod.type = this.selectedProdType.name;
+
+        this.$firebaseRefs.prod
+          .set(this.prod)
+          .then(() => {
+            this.$toastr.s("The data has been saved!");
+            this.$router.replace("/prod-list");
+          })
+          .catch(e => this.$toastr.e("Error! Access denied!"));
+      }
     },
     setImgUri(event) {
       this.prod.imgUri = event;
+    },
+    fbBindAsObject(key, ref, cancelCallback) {
+      return new Promise(resolve => {
+        this.$bindAsObject(key, ref, cancelCallback, resolve);
+      });
     }
   },
   created() {
     this.prodTypes = prodService.getProductTypes();
-    console.info(this.prodTypes);
+
+    if (this.$route.params.id) {
+      //Check if edit
+      let encodeId = this.$route.params.id;
+      let decodeId = decodeURIComponent(encodeId);
+      let fbObject = {};
+      this.fbBindAsObject(
+        "prod",
+        firebaseDb.ref("Demo/products").child(decodeId)
+      ).then(() => {
+        console.log(this.prod);
+        this.selectedProdType = this.prodTypes.find(
+          x => x.id === this.prod.typeId
+        );
+        this.isEdit = true;
+      });
+    }
   }
 };
 </script>

@@ -4,6 +4,7 @@ import { ProdTypeEnum } from './prod-types'
 export default class ProdService {
 
     getProductTypes() {
+
         let prodTypes = [];
 
         for (var prop in ProdTypeEnum) {
