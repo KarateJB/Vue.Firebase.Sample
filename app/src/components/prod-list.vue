@@ -63,6 +63,7 @@
 <script>
 
 import ProdBooking from "./prod-booking"
+import MyLoading from "./my-loading"
 
 export default {
   name: 'prod-list',
@@ -90,9 +91,7 @@ export default {
   // },
   methods:{
     goToShopcart(){
-      // alert()
       this.$toastr.w("Not implement yet!");
-      // console.log(this.fbArray);
     },
     edit(id){
       this.$router.replace("/prod-edit/" + encodeURIComponent(id));
@@ -110,10 +109,14 @@ export default {
   },
   mounted(){
     var vm = this;
-    // let products = db.ref('/Demo/products/');
-    // this.afDb.object<Product>('/Demo/products/' + key).valueChanges().take(1).map(x => <Product>x);
-    vm.$bindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(25));
-    vm.$bindAsObject('fbObject', firebaseDb.ref('Demo/products').child('800afd3c-1615-49ba-b33d-497842af6c82'));
+    let loader = this.$loading.show();
+    vm.$fbBindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(100)).then(()=>{
+      loader.hide();
+    });
+    // Array bindings
+    // vm.$bindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(100));
+    // Object bindings
+    // vm.$bindAsObject('fbObject', firebaseDb.ref('Demo/products').child('800afd3c-1615-49ba-b33d-497842af6c82'));
   },
   created(){
   }

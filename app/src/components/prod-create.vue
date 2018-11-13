@@ -20,12 +20,12 @@
             <input v-model="prod.price" class="form-control" />
         </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label class="control-label  col-md-2">Product image</label>
         <div class="col-md-3">
-            <!-- <file-upload :img="prod.imgUri" @change-img-uri="setImgUri($event)"></file-upload> -->
+            <file-upload :img="prod.imgUri" @change-img-uri="setImgUri($event)"></file-upload>
         </div>
-    </div>
+    </div> -->
 
     <div class="form-group text-center">
         <input type="button" class="btn btn-success" value="Save" @click="save" />
@@ -82,7 +82,6 @@ export default {
         this.prod.type = this.selectedProdType.name;
 
         /* Method 1. Use bindAsArray, but the key will be created by Firebase */
-        //   let fbArray=[];
         //   this.$bindAsArray('fbArray', firebaseDb.ref('Demo/products'));
         //   this.$firebaseRefs.fbArray.push(this.prod);
 
@@ -116,17 +115,19 @@ export default {
 
           //Notice that you can refer to the property (ex. title) of the data as following
           //and set it only but not the entire object
-          //this.fbBindAsObject("xxxx", firebaseDb.ref("Demo/products").child(itemId + "/title");
+          // this.$bindAsObject("myProp", firebaseDb.ref("Demo/products").child(this.prod.id + "/title"));
+          // this.$firebaseRefs.myProp.set("Hello, Vuejs!");
       }
     },
     setImgUri(event) {
       this.prod.imgUri = event;
-    },
-    fbBindAsObject(key, ref, cancelCallback) {
-      return new Promise(resolve => {
-        this.$bindAsObject(key, ref, cancelCallback, resolve);
-      });
-    }
+    },    
+  },
+  mounted(){
+    this.isLoading = true;
+      setTimeout(() => {
+            this.isLoading = false;
+        },3000)
   },
   created() {
     this.prodTypes = prodService.getProductTypes();
@@ -136,12 +137,13 @@ export default {
       let encodeId = this.$route.params.id;
       let decodeId = decodeURIComponent(encodeId);
 
-      let fbObject = {};
-      this.fbBindAsObject(
+      // let fbObject = {};
+      this.$fbBindAsObject(
         "prod",
         firebaseDb.ref("Demo/products").child(decodeId)
       ).then(() => {
-        // console.log(this.prod);
+        console.log(this.prod);
+        console.log(this.$firebaseRefs.prod);
         this.selectedProdType = this.prodTypes.find(
           x => x.id === this.prod.typeId
         );

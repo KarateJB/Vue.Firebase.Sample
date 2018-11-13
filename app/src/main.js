@@ -8,8 +8,14 @@ import ProdList from './components/prod-list'
 import ProdCreate from './components/prod-create'
 /* vue-numeric */
 import VueNumeric from 'vue-numeric'
+import toastrConfig from './modules/toastr.config'
 //vue-toastr
 import Toastr from 'vue-toastr';
+import 'vue-toastr/dist/vue-toastr.css'
+//vue-loading-overlay
+import VueLoading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import vueLoadingOverlayConfig from './modules/vue-loading-overlay.config'
 /* font-awesome*/
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCoffee, faCrosshairs, faSave, faPlus, faShoppingCart, faMinus } from '@fortawesome/free-solid-svg-icons'
@@ -30,8 +36,11 @@ Vue.config.productionTip = false;
 Vue.use(VueNumeric);
 
 //vue-toastr
-require('vue-toastr/dist/vue-toastr.css');
-Vue.use(Toastr, { /* options */ });
+Vue.use(Toastr, toastrConfig);
+
+//vue-loading-overlay
+Vue.use(VueLoading, vueLoadingOverlayConfig);
+
 
 //font-awesome
 library.add(faCoffee,faCrosshairs, faSave, faPlus, faMinus,faShoppingCart, faGooglePlus);
@@ -61,10 +70,21 @@ const router = new VueRouter({
 
 Vue.use(VueRouter);
 
-
-
 //VueFire
 Vue.use(VueFire)
+
+
+/* Global methods */
+Vue.prototype.$fbBindAsArray = function(key, ref, cancelCallback) {
+  return new Promise(resolve => {
+    this.$bindAsArray(key, ref, cancelCallback, resolve);
+  });
+}
+Vue.prototype.$fbBindAsObject = function(key, ref, cancelCallback) {
+  return new Promise(resolve => {
+    this.$bindAsObject(key, ref, cancelCallback, resolve);
+  });
+}
 
 new Vue({
   el: '#app',
