@@ -61,20 +61,22 @@
 </template>
 
 <script>
-
-import ProdBooking from "./prod-booking"
-import MyLoading from "./my-loading"
+import ProdBooking from "./prod-booking";
+import MyLoading from "./my-loading";
+import Toastr from "vue-toastr";
+// Vue.component('vue-toastr',Toastr);
 
 export default {
-  name: 'prod-list',
-  components:{
-    ProdBooking
+  name: "prod-list",
+  components: {
+    ProdBooking,
+    "vue-toastr": Toastr
   },
-  data () {
+  data() {
     return {
       fbArray: [],
       fbObject: {}
-    }
+    };
   },
   // firebase: {
   //     fbArray: firebaseDb.ref('Demo/products').limitToLast(10), //bind as an array
@@ -84,64 +86,63 @@ export default {
   //       cancelCallback: function () {
   //         console.log("Not ready for the object!");
   //       },
-  //       readyCallback: function () { 
+  //       readyCallback: function () {
   //         console.log("Get ready for the object!");
   //     }
   //   }
   // },
-  methods:{
-    goToShopcart(){
+  methods: {
+    goToShopcart() {
       this.$toastr.w("Not implement yet!");
     },
-    edit(id){
+    edit(id) {
       this.$router.replace("/prod-edit/" + encodeURIComponent(id));
     },
-    remove(id){
-       this.$bindAsObject(
-          'removeObject', 
-          firebaseDb.ref('Demo/products').child(id));
-   
-       this.$firebaseRefs.removeObject.remove().then(()=>{
-         this.$toastr.i("The data has been removed!");
-         this.$unbind('removeObject');
-       });
+    remove(id) {
+      this.$bindAsObject(
+        "removeObject",
+        firebaseDb.ref("Demo/products").child(id)
+      );
+
+      this.$firebaseRefs.removeObject.remove().then(() => {
+        this.$toastr.i("The data has been removed!");
+        this.$unbind("removeObject");
+      });
     }
   },
-  mounted(){
+  mounted() {
     var vm = this;
     let loader = this.$loading.show();
-    vm.$fbBindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(100)).then(()=>{
+    vm.$fbBindAsArray(
+      "fbArray",
+      firebaseDb.ref("Demo/products").limitToLast(100)
+    ).then(() => {
       loader.hide();
+      console.log(this.fbArray);
     });
     // Array bindings
     // vm.$bindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(100));
     // Object bindings
     // vm.$bindAsObject('fbObject', firebaseDb.ref('Demo/products').child('800afd3c-1615-49ba-b33d-497842af6c82'));
-  },
-  created(){
   }
-}
+};
 </script>
 
 <style>
-
-
 .footer {
-  position:fixed;
-  bottom:0;
-  height:auto;
-  margin-top:40px;
-  width:100%;
-  text-align:center;
+  position: fixed;
+  bottom: 0;
+  height: auto;
+  margin-top: 40px;
+  width: 100%;
+  text-align: center;
 }
 
 .shopcart {
-  position:fixed;
-  bottom:0;
-  right:0;
-  height:auto;
-  margin:40px 40px 40px 40px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: auto;
+  margin: 40px 40px 40px 40px;
 }
-
-
 </style>

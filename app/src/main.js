@@ -22,6 +22,9 @@ import { faCoffee, faCrosshairs, faSave, faPlus, faShoppingCart, faMinus } from 
 import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { dom } from '@fortawesome/fontawesome-svg-core'
+/* vuex */
+// import Vuex from 'vuex'
+
 /* firebase */
 import firebaseConfig from './modules/firebase.config.prod'
 // import * as firebase from 'firebase' //For Dev envoronment
@@ -41,6 +44,8 @@ Vue.use(Toastr, toastrConfig);
 //vue-loading-overlay
 Vue.use(VueLoading, vueLoadingOverlayConfig);
 
+//vuex
+// Vue.use(Vuex);
 
 //font-awesome
 library.add(faCoffee,faCrosshairs, faSave, faPlus, faMinus,faShoppingCart, faGooglePlus);

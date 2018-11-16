@@ -3,7 +3,7 @@
         <tr>
             <td @click="decrement()">
                 <label style="min-width:25px">
-                    <font-awesome-icon :icon="['fas', 'minus']" />
+                    <font-awesome-icon :icon="['fas', 'minus']"/>
                 </label>
             </td>
             <td>
@@ -25,6 +25,8 @@
 
 
 <script>
+import {store, INCREMENT, DECREMENT, CLEAR} from "../vuex.action/shopcart.action";
+
 export default {
   name: "prod-booking",
   props: {
@@ -45,9 +47,11 @@ export default {
   methods: {
     increment() {
       this.shopItem.count += 1;
+      store.commit(INCREMENT);
     },
     decrement() {
       if (this.shopItem.count > 0) this.shopItem.count -= 1;
+      store.commit(DECREMENT);
     }
   },
   created() {}

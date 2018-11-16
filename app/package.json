@@ -23,7 +23,8 @@
     "vue-numeric": "^2.3.0",
     "vue-router": "^3.0.1",
     "vue-toastr": "^2.0.16",
-    "vuefire": "^1.4.5"
+    "vuefire": "^1.4.5",
+    "vuex": "^3.0.1"
   },
   "browserslist": [
     "> 1%",
