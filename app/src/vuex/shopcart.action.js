@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export const INCREMENT = 'increment';
 export const DECREMENT = 'decrement';
-export const CLEAR = 'clear';
+export const RESET = 'reset';
 
 export const store = new Vuex.Store({
     state: {
@@ -22,7 +22,7 @@ export const store = new Vuex.Store({
           if(state.count > 0)
             state.count--;
       },
-      clear(state){
+      reset(state){
           state.count= 0;
       }
 

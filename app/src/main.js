@@ -23,7 +23,8 @@ import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 /* vuex */
-// import Vuex from 'vuex'
+import Vuex from 'vuex'
+import { store } from './vuex/shopcart.action'
 
 /* firebase */
 import firebaseConfig from './modules/firebase.config.prod'
@@ -45,7 +46,7 @@ Vue.use(Toastr, toastrConfig);
 Vue.use(VueLoading, vueLoadingOverlayConfig);
 
 //vuex
-// Vue.use(Vuex);
+Vue.use(Vuex);
 
 //font-awesome
 library.add(faCoffee,faCrosshairs, faSave, faPlus, faMinus,faShoppingCart, faGooglePlus);
@@ -94,5 +95,6 @@ Vue.prototype.$fbBindAsObject = function(key, ref, cancelCallback) {
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
