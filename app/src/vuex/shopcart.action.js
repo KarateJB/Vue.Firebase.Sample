@@ -1,5 +1,5 @@
 
-// import { ShopCart } from './../class/ShopCart';
+import { ShopCart } from '../class/shop-cart';
 // import { ShopcartAction } from '../class/ShopcartAction';
 import Vue from 'vue';
 import Vuex from 'vuex'
