@@ -1,8 +1,8 @@
 export class ShopCart {
     constructor() {
         this.items = [];
-        this.cnt = 0; //Total count for all items in shopcart
-        this.sum = 0; //Total pricing for all items in shopcart
+        this.totalCnt = 0; //Total count for all items in shopcart
+        this.totalPrice = 0; //Total pricing for all items in shopcart
     }
 }
 
@@ -22,19 +22,19 @@ export class ShopCart {
 //         this._items=value;
 //     }
 
-//     get cnt() {
-//         return this._cnt;
+//     get totalCnt() {
+//         return this._totalCnt;
 //     }
 
-//     set cnt(value){
-//         this._cnt=value;
+//     set totalCnt(value){
+//         this._totalCnt=value;
 //     }
 
-//     get sum() {
-//         return this._sum;
+//     get totalPrice() {
+//         return this._totalPrice;
 //     }
 
-//     set sum(value){
-//         this._sum=value;
+//     set totalPrice(value){
+//         this._totalPrice=value;
 //     }
 // }

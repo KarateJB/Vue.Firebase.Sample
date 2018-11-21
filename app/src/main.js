@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 /* vuex */
 import Vuex from 'vuex'
-import { store } from './vuex/shopcart.action'
+import { store } from './vuex/shopcart.store.js'
 
 /* firebase */
 import firebaseConfig from './modules/firebase.config.prod'

@@ -9,7 +9,7 @@
             <td>
                 <vue-numeric style="max-width:40px" 
                              separator="," 
-                             v-model="shopItem.count" 
+                             :value="item.count" 
                              :minus="false">
                 </vue-numeric>
             </td>
@@ -30,9 +30,8 @@
 
 
 <script>
-import { store, INCREMENT, DECREMENT, RESET } from "../vuex/shopcart.action";
+import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
 import { mapState, mapMutations, mapActions } from "vuex";
-// import { shopcartMapState } from "../vuex/shopcart.map-state"
 
 const STEP = 1;
 
@@ -40,86 +39,52 @@ export default {
   name: "prod-booking",
   props: {
     shopItem: {
-      //id:String,title:String,count:Number,price:Number
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      item: {}
+    };
   },
   computed: {
     // Other computed props
 
     // mix this into the outer object with the object spread operator
     ...mapState({
-      count: state => state.count,
-      countAlias: "count",
-      nextCount(state) {
-        return state.count + STEP;
-      },
-      previousCount(state) {
-        return state.count - STEP;
-      }
+      totalCnt: state => state.totalCnt,
+      totalPrice: state => state.totalPrice,
+      totalCount: "totalCnt" // Alias name for totalCnt
     })
-  },
-  /* If no other computed prop */
-  // computed: mapState({
-  //   count: state => state.count,
-  //   countAlias: "count",
-  //   nextCount(state) {
-  //     return state.count + STEP;
-  //   },
-  //   previousCount(state) {
-  //     return state.count - STEP;
-  //   }
-  // }),
-  watch: {
-    "shopItem.count": function(newVal, oldVal) {
-      this.$emit("input", newVal);
-    }
-  },
-  data() {
-    return {};
   },
   methods: {
     increment(amt) {
       amt = amt || 1;
-      this.shopItem.count += amt;
-
-      /* Use imported singleton store */
-      // store.commit(INCREMENT, amt);
-
-      /* Use injected store  */
-      // this.$store.state.count++;
-
-      /* Use injected store (mapMutations) */
-      //this.add(amt);
-
-      /* Use Actions */
-      store.dispatch("increment", amt);
-
-      /* Use Actions (mapActions) */
-      // this.add(amt);
-
-      /* Call vuex related computed props */
-      // console.log("current: " + this.count);
-      // console.log("next: " + this.nextCount);
-      // console.log("previous: " + this.previousCount);
+      this.item.count += amt;
+      if(amt===1)
+        store.dispatch("push", this.item);
+      else if(amt==10)
+        store.dispatch("pushBy10", this.item);
     },
     decrement() {
-      if (this.shopItem.count > 0) this.shopItem.count -= 1;
-
-      this.$store.dispatch("decrement");
-    },
-    // ...mapMutations({
-    //   add: "increment", // Map `this.add()` to `this.$store.commit('increment')`
-    //   minus: "decrement", // Map `this.add()` to `this.$store.commit('decrement')`
-    //   clear: "reset" // Map `this.add()` to `this.$store.commit('reset')`
-    // }),
-    ...mapActions({
-      add: "increment", // Map `this.add()` to `this.$store.dispatch('increment')`
-      minus: "decrement", // Map `this.add()` to `this.$store.dispatch('decrement')`
-      clear: "reset" // Map `this.add()` to `this.$store.dispatch('reset')`
-    })
+      if (this.item.count > 0) {
+        this.item.count -= 1;
+        store.dispatch("pull", this.item);
+      }
+    }
   },
-  created() {}
+  created() {
+    this.item = store.getters.item(this.shopItem.id);
+    if (!this.item) {
+      this.item = {
+        id: this.shopItem.id,
+        title: this.shopItem.title,
+        price: this.shopItem.price,
+        count: 0
+      };
+    }
+  },
+  mounted() {}
 };
 </script>
