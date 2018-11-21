@@ -10,6 +10,7 @@ export const INCREMENT = 'increment';
 export const DECREMENT = 'decrement';
 export const RESET = 'reset';
 
+
 export const store = new Vuex.Store({
     state: {
       count: 0

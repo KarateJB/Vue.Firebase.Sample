@@ -94,10 +94,10 @@ export default {
       //this.add(amt);
 
       /* Use Actions */
-      // store.dispatch("increment", amt);
+      store.dispatch("increment", amt);
 
       /* Use Actions (mapActions) */
-      this.add(amt);
+      // this.add(amt);
 
       /* Call vuex related computed props */
       // console.log("current: " + this.count);
