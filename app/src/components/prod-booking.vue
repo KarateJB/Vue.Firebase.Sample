@@ -1,11 +1,10 @@
 <template>
     <table>
         <tr>
-          <td>{{ currentDatetime }}</td>
             <td @click="decrement()">
-                <label style="min-width:25px">
+                <button style="min-width:25px">
                     <font-awesome-icon :icon="['fas', 'minus']"/>
-                </label>
+                </button>
             </td>
             <td>
                 <vue-numeric style="max-width:40px" 
@@ -15,9 +14,14 @@
                 </vue-numeric>
             </td>
             <td @click="increment()">
-                <label style="min-width:25px">
+                <button style="min-width:25px">
                     <font-awesome-icon :icon="['fas', 'plus']" />
-                </label>
+                </button>
+            </td>
+            <td @click="increment(10)">
+              <button style="min-width:25px">
+                    +10
+              </button>
             </td>
         </tr>
     </table>
@@ -27,7 +31,7 @@
 
 <script>
 import { store, INCREMENT, DECREMENT, RESET } from "../vuex/shopcart.action";
-import { mapState } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 // import { shopcartMapState } from "../vuex/shopcart.map-state"
 
 const STEP = 1;
@@ -42,9 +46,8 @@ export default {
     }
   },
   computed: {
-    currentDatetime() {
-      return new Date();
-    },
+    // Other computed props
+
     // mix this into the outer object with the object spread operator
     ...mapState({
       count: state => state.count,
@@ -57,6 +60,7 @@ export default {
       }
     })
   },
+  /* If no other computed prop */
   // computed: mapState({
   //   count: state => state.count,
   //   countAlias: "count",
@@ -76,22 +80,45 @@ export default {
     return {};
   },
   methods: {
-    increment() {
-      this.shopItem.count += 1;
-      store.commit(INCREMENT);
+    increment(amt) {
+      amt = amt || 1;
+      this.shopItem.count += amt;
+
+      /* Use imported singleton store */
+      // store.commit(INCREMENT, amt);
+
+      /* Use injected store  */
       // this.$store.state.count++;
-      console.log("current: " + this.count);
-      console.log("next: " + this.nextCount);
-      console.log("previous: " + this.previousCount);
+
+      /* Use injected store (mapMutations) */
+      //this.add(amt);
+
+      /* Use Actions */
+      // store.dispatch("increment", amt);
+
+      /* Use Actions (mapActions) */
+      this.add(amt);
+
+      /* Call vuex related computed props */
+      // console.log("current: " + this.count);
+      // console.log("next: " + this.nextCount);
+      // console.log("previous: " + this.previousCount);
     },
     decrement() {
       if (this.shopItem.count > 0) this.shopItem.count -= 1;
-      store.commit(DECREMENT);
-      // this.$store.state.count--;
-      console.log("current: " + this.count);
-      console.log("next: " + this.nextCount);
-      console.log("previous: " + this.previousCount);
-    }
+
+      this.$store.dispatch("decrement");
+    },
+    // ...mapMutations({
+    //   add: "increment", // Map `this.add()` to `this.$store.commit('increment')`
+    //   minus: "decrement", // Map `this.add()` to `this.$store.commit('decrement')`
+    //   clear: "reset" // Map `this.add()` to `this.$store.commit('reset')`
+    // }),
+    ...mapActions({
+      add: "increment", // Map `this.add()` to `this.$store.dispatch('increment')`
+      minus: "decrement", // Map `this.add()` to `this.$store.dispatch('decrement')`
+      clear: "reset" // Map `this.add()` to `this.$store.dispatch('reset')`
+    })
   },
   created() {}
 };

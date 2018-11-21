@@ -15,8 +15,9 @@ export const store = new Vuex.Store({
       count: 0
     },
     mutations: {
-      increment (state) {
-        state.count++;
+      increment (state, payload) {
+        if(payload) state.count += payload;
+        else state.count++;
       },
       decrement(state){
           if(state.count > 0)
@@ -25,7 +26,17 @@ export const store = new Vuex.Store({
       reset(state){
           state.count= 0;
       }
-
+    },
+    actions: {
+      increment (context, payload) {
+        context.commit('increment', payload);
+      },
+      decrement(context){
+        context.commit('decrement');
+      },
+      reset(context){
+        context.commit('reset');
+      }
     }
   })
 
