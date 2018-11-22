@@ -1,5 +1,5 @@
 var toastrConfig = {
-    defaultTimeout: 2000,
+    defaultTimeout: 2500,
 	defaultProgressBar: true,
 	// defaultProgressBarValue: 0,
 	defaultType: "error",

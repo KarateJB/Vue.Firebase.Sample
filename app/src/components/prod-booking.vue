@@ -66,11 +66,15 @@ export default {
         store.dispatch("push", this.item);
       else if(amt==10)
         store.dispatch("pushBy10", this.item);
+
+      this.$emit("show-shopcart");
     },
     decrement() {
       if (this.item.count > 0) {
         this.item.count -= 1;
         store.dispatch("pull", this.item);
+
+      this.$emit("show-shopcart");
       }
     }
   },

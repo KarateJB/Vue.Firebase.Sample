@@ -39,7 +39,7 @@
                                   :read-only=true></vue-numeric>
                     </td>
                     <td>
-                      <prod-booking v-model="item.count" :shop-item="item"></prod-booking>
+                      <prod-booking v-model="item.count" :shop-item="item" @show-shopcart="showShopcart"></prod-booking>
                     </td>
                     <td>
                         <input type="button" value="Edit" class="btn btn-info" @click="edit(item.id)" />
@@ -94,6 +94,9 @@ export default {
   methods: {
     goToShopcart() {
       this.$toastr.w("Not implement yet!");
+    },
+    showShopcart(){
+      this.$toastr.s(this.$store.state.totalCnt + ' items, total $' + this.$store.state.totalPrice);
     },
     edit(id) {
       this.$router.replace("/prod-edit/" + encodeURIComponent(id));
