@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import VueFire from 'vuefire'
 /* Components */
 import Login from './components/login'
+import ProdOutlet from './components/prod-outlet'
 import ProdList from './components/prod-list'
 import ProdCreate from './components/prod-create'
 /* vue-numeric */
@@ -63,7 +64,12 @@ window.firebaseAuth = firebaseApp.auth();
 //Routing
 const routes = [
   { path: '/login', component: Login },
-  { path: '/prod-list', component: ProdList },
+  { 
+    path: '/prods', component: ProdOutlet,
+    children:[
+      { path: 'list/:prodType', component: ProdList }
+    ]
+  },
   { path: '/prod-create', component: ProdCreate },
   { path: '/prod-edit/:id', component: ProdCreate },
    //{ path: '/orders', component: Orders },

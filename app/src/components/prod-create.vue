@@ -95,7 +95,7 @@ export default {
           .set(this.prod)
           .then(() => {
             this.$toastr.s("The data has been saved!");
-            this.$router.replace("/prod-list");
+            this.$router.replace("/prods");
           })
           .catch(e => this.$toastr.e("Error! Access denied!"));
       } else {
@@ -109,7 +109,7 @@ export default {
           .set(this.prod)
           .then(() => {
             this.$toastr.s("The data has been saved!");
-            this.$router.replace("/prod-list");
+            this.$router.replace("/prods");
           })
           .catch(e => this.$toastr.e("Error! Access denied!"));
 

@@ -7,7 +7,7 @@
       <div class="topMenu" v-show="menuState==='in'">
         <ul>
           <li>
-            <router-link to="/prod-list" @click.native="toggleMenu">
+            <router-link to="/prods" @click.native="toggleMenu">
               <font-awesome-icon :icon="['fas', 'crosshairs']" spin />
               Buy something
             </router-link>

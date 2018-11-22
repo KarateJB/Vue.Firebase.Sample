@@ -1,17 +1,5 @@
 <template>
   <div>
-    <div>
-      <div class="container">
-        <div class="row">
-          <div class="col col-md-8">
-            <router-link to="/prod-create" tag="button" class="btn btn-alert">            
-              Create
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr />
     <div class="container">
         <div class="row">
             <div class="col-md-1">
@@ -54,9 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="shopcart" @click="goToShopcart()">
-      <font-awesome-icon :icon="['fas', 'shopping-cart']" size="3x"/>
-    </div>
+    
   </div>
 </template>
 
@@ -74,6 +60,7 @@ export default {
   },
   data() {
     return {
+      targetProdType: "", //Target product type, such as "book", "toy"
       fbArray: [],
       fbObject: {}
     };
@@ -92,9 +79,7 @@ export default {
   //   }
   // },
   methods: {
-    goToShopcart() {
-      this.$toastr.w("Not implement yet!");
-    },
+    
     showShopcart(){
       this.$toastr.s(this.$store.state.totalCnt + ' items, total $' + this.$store.state.totalPrice);
     },
@@ -113,15 +98,20 @@ export default {
       });
     }
   },
+  created(){
+    this.targetProdType = this.$route.params.prodType;
+    console.log("Target Prod Type = " + this.targetProdType);
+  },
   mounted() {
     var vm = this;
     let loader = this.$loading.show();
     vm.$fbBindAsArray(
       "fbArray",
-      firebaseDb.ref("Demo/products").limitToLast(100)
+      // firebaseDb.ref("Demo/products").limitToLast(100)
+      firebaseDb.ref("Demo/products").orderByChild('type').equalTo(this.targetProdType)
     ).then(() => {
       loader.hide();
-      console.log(this.fbArray);
+      this.fbArray 
     });
     // Array bindings
     // vm.$bindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(100));
@@ -130,22 +120,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.footer {
-  position: fixed;
-  bottom: 0;
-  height: auto;
-  margin-top: 40px;
-  width: 100%;
-  text-align: center;
-}
-
-.shopcart {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  height: auto;
-  margin: 40px 40px 40px 40px;
-}
-</style>
