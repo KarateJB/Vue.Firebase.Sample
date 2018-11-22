@@ -31,7 +31,7 @@
 
 <script>
 import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 const STEP = 1;
 
@@ -56,6 +56,11 @@ export default {
       totalCnt: state => state.totalCnt,
       totalPrice: state => state.totalPrice,
       totalCount: "totalCnt" // Alias name for totalCnt
+    }),
+    ...mapGetters({
+      totalCnt: "totalCnt",
+      totalPrice: "totalPrice",
+      targetItem: "item"
     })
   },
   methods: {
@@ -66,7 +71,7 @@ export default {
         store.dispatch("push", this.item);
       else if(amt==10)
         store.dispatch("pushBy10", this.item);
-
+        
       this.$emit("show-shopcart");
     },
     decrement() {

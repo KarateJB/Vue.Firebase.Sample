@@ -1,6 +1,5 @@
 
 import { ShopCart } from '../class/shop-cart';
-// import { ShopcartAction } from '../class/ShopcartAction';
 import Vue from 'vue';
 import Vuex from 'vuex'
 
@@ -42,6 +41,10 @@ export const store = new Vuex.Store({
         return state.items.find(x => x.id === id);
       }
     }
+    //Simplify above code as following
+    // item: (state) => (id) => {
+    //   return state.items.find(x => x.id === id);
+    // }
   },
   actions: {
     push(context, payload) {
@@ -88,27 +91,6 @@ function updateItems(shopcart, payload) {
     shopcart.items.push(payload);
   }
 }
-
-
-// export function shopcartReducer(state: ShopCart = new ShopCart(), action: ShopcartAction) {
-// export const shopcartReducer: ActionReducer<IShopCart> = (state: ShopCart = new ShopCart(), action: ShopcartAction) => {
-//     switch (action.type) {
-//         case PUSH:
-//             return pushToCart(state, action.payload);
-
-//         case PULL:
-//             return pullFromCart(state, action.payload);
-
-//         case CLEAR:
-//             state.cnt = 0;
-//             state.sum = 0;
-//             state.items = [];
-//             return state;
-
-//         default:
-//             return state;
-//     }
-// }
 
 
 
