@@ -33,8 +33,6 @@
 import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
-const STEP = 1;
-
 export default {
   name: "prod-booking",
   props: {

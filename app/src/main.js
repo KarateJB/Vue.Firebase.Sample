@@ -7,6 +7,7 @@ import Login from './components/login'
 import ProdOutlet from './components/prod-outlet'
 import ProdList from './components/prod-list'
 import ProdCreate from './components/prod-create'
+import Shopcart from './components/shopcart'
 /* vue-numeric */
 import VueNumeric from 'vue-numeric'
 import toastrConfig from './modules/toastr.config'
@@ -19,7 +20,7 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import vueLoadingOverlayConfig from './modules/vue-loading-overlay.config'
 /* font-awesome*/
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee, faCrosshairs, faSave, faPlus, faShoppingCart, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faCoffee, faCrosshairs, faHome, faSave, faPlus, faShoppingCart,faArrowCircleRight, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { dom } from '@fortawesome/fontawesome-svg-core'
@@ -50,7 +51,7 @@ Vue.use(VueLoading, vueLoadingOverlayConfig);
 Vue.use(Vuex);
 
 //font-awesome
-library.add(faCoffee,faCrosshairs, faSave, faPlus, faMinus,faShoppingCart, faGooglePlus);
+library.add(faCoffee,faCrosshairs, faHome, faSave, faPlus, faMinus, faShoppingCart,faArrowCircleRight, faGooglePlus);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 dom.watch(); //Optional, for converting i tags to svg tags
 
@@ -72,8 +73,9 @@ const routes = [
   },
   { path: '/prod-create', component: ProdCreate },
   { path: '/prod-edit/:id', component: ProdCreate },
-   //{ path: '/orders', component: Orders },
-   {path: '*', redirect: '/login'}
+  { path: '/shopcart', component: Shopcart },
+  //{ path: '/orders', component: Orders },
+  {path: '*', redirect: '/login'}
 ]
 
 const router = new VueRouter({

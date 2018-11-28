@@ -32,8 +32,8 @@
           </li>
         </ul>
       </div>
-  
-     <!-- route outlet -->
+      <br /><br />
+      <!-- route outlet -->
       <router-view></router-view>
 
   </div>

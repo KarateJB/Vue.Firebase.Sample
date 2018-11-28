@@ -20,9 +20,10 @@
             </router-link>
         </div>
         <router-view :key="$route.fullPath"></router-view>
-       <div class="shopcart" @click="goToShopcart()">
-        <font-awesome-icon :icon="['fas', 'shopping-cart']" size="3x"/>
-       </div>
+
+        <router-link to="/shopcart" class="shopcart">
+            <font-awesome-icon :icon="['fas', 'shopping-cart']" size="3x"/>
+        </router-link>
     </div>
   </div>
 </template>
@@ -37,9 +38,6 @@ export default {
     }
   },
   methods: {
-     goToShopcart() {
-      this.$toastr.w("Not implement yet!");
-    },
   },
   mounted(){
     
