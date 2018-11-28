@@ -52,8 +52,7 @@ export default {
   },
   methods:{
     toggleMenu(){
-      console.log("Toggle");
-          this.menuState = (this.menuState === 'out' ? 'in' : 'out');
+      this.menuState = (this.menuState === 'out' ? 'in' : 'out');
     },
     logout() {
       firebaseAuth.signOut()

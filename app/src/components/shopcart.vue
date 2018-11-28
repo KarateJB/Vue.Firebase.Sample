@@ -35,8 +35,10 @@
 </template>
 
 <script>
-import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
-import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+import Order from "../class/Order"
+import appUtil from "../modules/app-util"
+import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js"
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
 
 export default {
   name: "shopcart",
@@ -49,7 +51,32 @@ export default {
   },
   methods: {
     sendOrder(){
+        // let newOrder = new Order(
+        //   appUtil.generateUUID(), //id
+        //   firebaseAuth.currentUser.email, //customer email
+        //   this.shopcart.items,
+        //   "SAVED"
+        // );
 
+        let newOrder = {
+          id : appUtil.generateUUID(),
+          customer : firebaseAuth.currentUser.email,
+          items : this.shopcart.items,
+          status : "SAVED"
+        };
+
+        this.$bindAsObject(
+          "fbObject",
+          firebaseDb.ref("Demo/orders").child(newOrder.id)
+        );
+
+        this.$firebaseRefs.fbObject
+          .set(newOrder)
+          .then(() => {
+            this.$toastr.s("The order has been saved!");
+            this.$router.replace("/prods");
+          })
+          .catch(e => this.$toastr.e("Error! Access denied!"));
     }
   },
   created() {
