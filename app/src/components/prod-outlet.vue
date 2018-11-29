@@ -2,10 +2,14 @@
   <div>
     <div class="container">
         <div class="row">
-            <div class="col col-md-8">
-            <router-link to="/prod-create" tag="button" class="btn btn-success">            
-                Create
-            </router-link>
+            <div class="col col-md-2">
+                <router-link to="/prod-create" tag="button" class="btn btn-success">            
+                    Create
+                </router-link>
+            </div>
+            <div class="col col-md-2">
+                <button class="btn btn-warning" @click="clear">Clear All
+                </button>
             </div>
         </div>
     </div>
@@ -29,6 +33,8 @@
 </template>
 
 <script>
+import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "prod-outlet",
@@ -38,12 +44,13 @@ export default {
     }
   },
   methods: {
+      clear(){
+        store.dispatch("clear");
+        console.log(store.state);
+        this.$router.replace("/prods");
+      }
   },
   mounted(){
-    
-  },
-  created() {
-    
   }
 };
 </script>

@@ -100,7 +100,9 @@ export default {
   },
   created(){
     this.targetProdType = this.$route.params.prodType;
-    console.log("Target Prod Type = " + this.targetProdType);
+  },
+  destroyed(){
+    // console.log("Destroyed");
   },
   mounted() {
     var vm = this;
@@ -111,7 +113,6 @@ export default {
       firebaseDb.ref("Demo/products").orderByChild('type').equalTo(this.targetProdType)
     ).then(() => {
       loader.hide();
-      this.fbArray 
     });
     // Array bindings
     // vm.$bindAsArray('fbArray', firebaseDb.ref('Demo/products').limitToLast(100));

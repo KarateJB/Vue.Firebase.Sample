@@ -10,6 +10,15 @@ export const PULL = 'pull';
 export const CLEAR = 'clear';
 
 
+const getDefaultState = () => {
+  return {
+    items : [],
+    totalCnt : 0,
+    totalPrice : 0 
+  }
+}
+
+
 export const store = new Vuex.Store({
   state: new ShopCart(),
   mutations: {
@@ -22,8 +31,8 @@ export const store = new Vuex.Store({
     pull(state, payload) {
       pullFromCart(state, payload);
     },
-    reset(state) {
-      state = new ShopCart();
+    clear(state) {
+      Object.assign(state, getDefaultState());
       // state.cnt = 0;
       // state.sum = 0;
       // state.items = [];
