@@ -35,10 +35,9 @@
 </template>
 
 <script>
-import Order from "../class/Order"
+import { Order } from "../class/Order"
 import appUtil from "../modules/app-util"
-import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js"
-import { mapState, mapMutations, mapActions, mapGetters } from "vuex"
+import { store } from "../vuex/shopcart.store.js"
 
 export default {
   name: "shopcart",
@@ -51,19 +50,14 @@ export default {
   },
   methods: {
     sendOrder(){
-        // let newOrder = new Order(
-        //   appUtil.generateUUID(), //id
-        //   firebaseAuth.currentUser.email, //customer email
-        //   this.shopcart.items,
-        //   "SAVED"
-        // );
-
-        let newOrder = {
-          id : appUtil.generateUUID(),
-          customer : firebaseAuth.currentUser.email,
-          items : this.shopcart.items,
-          status : "SAVED"
-        };
+        let newOrder = new Order(
+          appUtil.generateUUID(), //id
+          firebaseAuth.currentUser.email, //customer email
+          this.shopcart.items,
+          "SAVED"
+        );
+        
+        let loader = this.$loading.show();
 
         this.$bindAsObject(
           "fbObject",
@@ -73,6 +67,7 @@ export default {
         this.$firebaseRefs.fbObject
           .set(newOrder)
           .then(() => {
+            loader.hide();
             this.$toastr.s("The order has been saved!");
             this.$router.replace("/prods");
           })

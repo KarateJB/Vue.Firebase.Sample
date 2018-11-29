@@ -8,6 +8,7 @@ import ProdOutlet from './components/prod-outlet'
 import ProdList from './components/prod-list'
 import ProdCreate from './components/prod-create'
 import Shopcart from './components/shopcart'
+import Orders from './components/orders'
 /* vue-numeric */
 import VueNumeric from 'vue-numeric'
 import toastrConfig from './modules/toastr.config'
@@ -74,7 +75,7 @@ const routes = [
   { path: '/prod-create', component: ProdCreate },
   { path: '/prod-edit/:id', component: ProdCreate },
   { path: '/shopcart', component: Shopcart },
-  //{ path: '/orders', component: Orders },
+  { path: '/orders', component: Orders },
   {path: '*', redirect: '/login'}
 ]
 
