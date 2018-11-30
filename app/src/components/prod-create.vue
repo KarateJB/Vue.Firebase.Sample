@@ -20,12 +20,13 @@
             <input v-model="prod.price" class="form-control" />
         </div>
     </div>
-    <!-- <div class="form-group">
+    <div class="form-group">
         <label class="control-label  col-md-2">Product image</label>
         <div class="col-md-3">
-            <file-upload :img="prod.imgUri" @change-img-uri="setImgUri($event)"></file-upload>
+            <!-- <file-upload :img="prod.imgUri" @change-img-uri="setImgUri($event)"></file-upload> -->
+            <file-upload :img="prod.imgUri"></file-upload>
         </div>
-    </div> -->
+    </div>
 
     <div class="form-group text-center">
         <input type="button" class="btn btn-success" value="Save" @click="save" />
@@ -39,11 +40,15 @@
 <script>
 import appUtil from "../modules/app-util";
 import ProdService from "../modules/prod-service";
+import fileUpload from "./file-upload"
 
 const prodService = new ProdService();
 
 export default {
   name: "prod-create",
+  components:{
+    fileUpload
+  },
   data() {
     return {
       isEdit: false, //Is in edit mode
