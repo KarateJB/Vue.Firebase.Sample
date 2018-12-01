@@ -23,14 +23,13 @@
     <div class="form-group">
         <label class="control-label  col-md-2">Product image</label>
         <div class="col-md-3">
-            <!-- <file-upload :img="prod.imgUri" @change-img-uri="setImgUri($event)"></file-upload> -->
-            <file-upload :img="prod.imgUri"></file-upload>
+            <file-upload :img.sync="prod.imgUri"></file-upload>
         </div>
     </div>
 
     <div class="form-group text-center">
         <input type="button" class="btn btn-success" value="Save" @click="save" />
-        <router-link to="/prod-list" tag="button" class="btn btn-alert">            
+        <router-link to="/prods" tag="button" class="btn btn-alert">            
               Cancel
         </router-link>
     </div>

@@ -3,14 +3,14 @@
     class="card"
     @dragover.prevent="isHovering=true"
     @dragleave.prevent="isHovering=false"
-    @drop.prevent="upload"
+    @drop.prevent="upload($event, 'drag')"
   >
     <div class="drop-zone card-img-top" :class="{'hovering': isHovering}">
-      <label v-if="!downloadUri">{{ msg }}</label>
-      <img v-if="downloadUri" class="drop-img" :src="downloadUri">
+      <label v-if="!img">{{ msg }}</label>
+      <img v-if="img" class="drop-img" :src="img">
     </div>
     <div class="card-body">
-      <input class="file-input" type="file" @change="upload($event.target.files)">
+      <input class="file-input" type="file" ref="file" @change="upload($event,'select')">
     </div>
   </div>
 </template>
@@ -33,12 +33,29 @@ export default {
     };
   },
   methods: {
-    upload(event) {
+    selectToUpload(event){
       var vm = this;
-      console.log(event.dataTransfer);
-      const eventFiles = event.dataTransfer.files;
-      const file = eventFiles.item(0);
-      const fileExtension = file.name.split(".").pop();
+      file = this.$refs.file.files[0];
+    },
+    upload(event, uploadBy) {
+      var vm = this;
+      let eventFiles = null;
+      let file = null;
+
+      switch(uploadBy){
+        case "drag":
+          eventFiles = event.dataTransfer.files;
+          console.log(eventFiles.item);
+          file = eventFiles.item(0);
+          break;
+        case "select":
+          eventFiles = this.$refs.file.files;
+          file = eventFiles[0];
+          console.log(file);
+          break;
+      }
+
+      let fileExtension = file.name.split(".").pop();
       const path = `Demo/${appUtil.generateUUID()}.${fileExtension}`;
       const customerMetadata = "Product image";
 
@@ -50,43 +67,21 @@ export default {
       let loader = this.$loading.show();
       let fileUri;
       let ref = firebaseStorage.ref(path);
-      ref.put(file).then(function(snapshot) {
+      ref.put(file).then(snapshot => {
         console.log(snapshot.ref.getDownloadURL());
-        snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        snapshot.ref.getDownloadURL().then(function(downloadUrl) {
           loader.hide();
-          vm.downloadUri = downloadURL;
+          vm.img = downloadUrl;
+          vm.$emit('update:img', downloadUrl);
         });
+      }, err => {
+        error => {
+          loader.hide();
+          vm.value = "";
+          vm.$toastr.e("Access denied!");
+        }
       });
 
-      // let percentage$ = task.percentageChanges();
-      // let snapshot$ = task.snapshotChanges();
-      // let downloadUri$ = this.task.downloadURL();
-      // let snapshot$ = task.snapshot;
-
-      // //Monitor the upload progress
-      // snapshot$.subscribe(
-      //   snap => {
-      //     console.log(
-      //       `State:${snap.state} for ${snap.bytesTransferred}/${
-      //         snap.totalBytes
-      //       }`
-      //     );
-      //     if (
-      //       snap.state === "running" &&
-      //       snap.bytesTransferred < snap.totalBytes
-      //     ) {
-      //       //Do something when uploading file
-      //     } else if (snap.state === "success") {
-      //       loader.hide();
-      //       // this.downloadUri$.subscribe(uri => this.downloadUri = uri);
-      //       this.downloadUri = firebaseStorage.ref(path).getDownloadURL();
-      //     }
-      //   },
-      //   error => {
-      //     loader.hide();
-      //     this.$toastr.e("Access denied!");
-      //   }
-      // );
     }
   },
   created() {
