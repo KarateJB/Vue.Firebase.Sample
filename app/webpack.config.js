@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
@@ -53,6 +54,11 @@ module.exports = {
   performance: {
     hints: false
   },
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: './index.html', to: '.' }
+    ])
+  ],
   devtool: '#eval-source-map'
 }
 

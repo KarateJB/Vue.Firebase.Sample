@@ -130,7 +130,13 @@ Rename `app\src\modules\FirebaseConfig.ts` to `FirebaseConfig.prod.js` and paste
 
 ```
 $ npm run build
+$ mv dist/*.js dist/dist
+$ mv dist/*.map dist/dist
+$ mv dist/*.png dist/dist
 ```
+
+> Notice that I use [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin) to copy the index.html to `dist` directory in `webpack.config.js`.
+
 
 ▋Deploy to Firebase
 
@@ -143,6 +149,7 @@ $ firebase init
 
 The first command will guide you to login a Google account.
 The second command will guide you to initialize your application, you can take a look at my previous article: [[Angular] Deploy to Firebase](http://karatejb.blogspot.tw/2017/01/angular2-deploy-to-firebase.html) for more detail.
+(Dont worry, the steps for deploy Angular or Vue app to Firebase are the same)
 
 ![](https://3.bp.blogspot.com/-dLNqAMnKqgA/WsajajzboqI/AAAAAAAAF24/hQeBl3fc66YeIMHrqsXDq9T3wehpiP6EgCEwYBhgL/s640/image008.jpg)
 
