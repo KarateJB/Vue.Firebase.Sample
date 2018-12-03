@@ -36,6 +36,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/storage'
+import 'firebase/messaging'
 
 
 Vue.config.productionTip = false;
@@ -63,6 +64,7 @@ window.firebase = firebase;
 window.firebaseDb = firebaseApp.database();
 window.firebaseAuth = firebaseApp.auth();
 window.firebaseStorage = firebaseApp.storage();
+window.firebaseMessaging = firebaseApp.messaging();
 
 
 //Routing

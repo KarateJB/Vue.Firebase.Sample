@@ -1,0 +1,6 @@
+{
+    "name": "Vue.Firebase.Sample",
+    "description": "Vue.js + Firebase sample (VueFire + Vuex)",
+    "version": "1.0",
+    "gcm_sender_id": "103953800507"
+}
