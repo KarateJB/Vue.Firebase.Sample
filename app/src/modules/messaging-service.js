@@ -26,23 +26,28 @@ export default class MessagingService {
     async getTokenAsync() {
 
         var vm = this;
-        vm.messaging.getToken().then(function (currentToken) {
-            if (currentToken) {
-                vm.sendTokenToServerAsync(currentToken);
-                return currentToken;
-            }
-            else {
-                // Show permission request.
-                console.log('No Instance ID token available. Request permission to generate one.');
-                // Show permission UI.
-                vm.setTokenSentToServerAsync(false);
-                return false;
-            }
-        }).catch(function (err) {
-            console.log('An error occurred while retrieving token. ', err);
-            vm.setTokenSentToServer(false);
-            return false;
-        });
+        return new Promise((resolve, reject) => {
+
+            vm.messaging.getToken().then(function (currentToken) {
+                if (currentToken) {
+                    console.log("Token1", currentToken);
+                    vm.sendTokenToServerAsync(currentToken);
+                    resolve(currentToken);
+                }
+                else {
+                    // Show permission request.
+                    console.log('No Instance ID token available. Request permission to generate one.');
+                    // Show permission UI.
+                    vm.setTokenSentToServerAsync(false);
+                    resolve(false);
+                }
+            }).catch(function (err) {
+                console.log('An error occurred while retrieving token. ', err);
+                vm.setTokenSentToServer(false);
+                reject(false);
+            });
+        })
+
     }
 
     /* Delete Instance ID token */
@@ -93,7 +98,7 @@ export default class MessagingService {
     // - subscribe/unsubscribe the token from topics
     sendTokenToServerAsync(currentToken) {
         var vm = this;
-        if (!isTokenSentToServer()) {
+        if (!vm.isTokenSentToServer()) {
             console.log('Sending token to server...');
             // TODO(developer): Send the current token to your server.
             vm.setTokenSentToServer(true);

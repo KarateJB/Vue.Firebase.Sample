@@ -54,7 +54,7 @@ export default {
       msgService.watchTokenChangesAsync();
 
       msgService.getTokenAsync().then(token => {
-          console.log("Token", token);
+          console.log("Token2", token);
       })
     }
   },
