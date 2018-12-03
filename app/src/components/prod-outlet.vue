@@ -45,8 +45,6 @@ export default {
       
       let msgService = new messagingService();
 
-      //msgService.deleteTokenAsync();
-
       //Request permission
       msgService.requestPermissionAsync();
 
@@ -54,7 +52,9 @@ export default {
       msgService.watchTokenChangesAsync();
 
       msgService.getTokenAsync().then(token => {
-          console.log("Token2", token);
+        console.log("Token:", token);
+        //Delete token test
+        msgService.deleteTokenAsync();
       })
     }
   },

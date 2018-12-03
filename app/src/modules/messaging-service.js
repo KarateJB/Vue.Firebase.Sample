@@ -30,7 +30,6 @@ export default class MessagingService {
 
             vm.messaging.getToken().then(function (currentToken) {
                 if (currentToken) {
-                    console.log("Token1", currentToken);
                     vm.sendTokenToServerAsync(currentToken);
                     resolve(currentToken);
                 }
@@ -75,6 +74,9 @@ export default class MessagingService {
 
         // START refresh_token
         vm.messaging.onTokenRefresh(function () {
+
+            console.log("Token changed!");
+
             vm.messaging
                 .getToken()
                 .then(function (refreshedToken) {
