@@ -27,15 +27,15 @@ exports.sendBookingMsg = functions.https.onRequest((request, response) => {
                 title: "Advertisements",
                 body: "We have special discount for you, visit here for more details!",
                 token: userToken,
-                icon: null
+                icon: "dist/facebook-logo.png"
             }
         };
 
         //Test
-        response.send(payload);
+        //response.send(payload);
 
         // Send notifications to all tokens.
-        //return admin.messaging().sendToDevice(userToken, payload);
+        return admin.messaging().sendToDevice(userToken, payload);
     });
 
 
