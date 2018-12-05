@@ -33,7 +33,9 @@ import messagingService from "../modules/messaging-service";
 export default {
   name: "prod-outlet",
   data() {
-    return {};
+    return {
+      count: 0
+    };
   },
   methods: {
     clear() {
@@ -55,13 +57,16 @@ export default {
       //Delete token test
       //msgService.deleteTokenAsync();
     },
-    pushMsg(token) {
+    pushMsg(token, user) {
       console.log("Start push msg with token: " + token);
       this.axios
         .get(
           "https://us-central1-shopcart-vue.cloudfunctions.net/sendBookingMsg",
           {
-            headers: { token: token }
+            headers: { 
+              "token": token,
+              "user-name": user
+               }
           }
         )
         .then(result => {
@@ -70,9 +75,16 @@ export default {
     }
   },
   mounted() {
+    let userName = "Anonymous";
+    if(firebaseAuth.currentUser){
+      userName = firebaseAuth.currentUser.displayName;
+    }
+
+
     this.setFbMessaging().then(token => {
-      console.log("Token", token);
-      this.pushMsg(token);
+      console.log("Token=", token);
+      console.log("User=" + userName);
+      this.pushMsg(token, userName);
     });
   }
 };
