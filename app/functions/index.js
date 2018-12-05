@@ -43,11 +43,13 @@ exports.sendBookingMsg = functions.https.onRequest((request, response) => {
 
         /* Node.js messaging API: https://firebase.google.com/docs/cloud-messaging/admin/send-messages */
         let message = {
-            notification: {
-                title: "Advertisements",
-                body: `Hi ${userName}, we have special discount for you, visit here for more details!`,
-                click_action: "https://shopcart-vue.firebaseapp.com",
-                icon: "dist/firebase-logo.png"
+            webpush: {
+                notification: {
+                    title: "Advertisements",
+                    body: `Hi ${userName}, we have special discount for you, visit here for more details!`,
+                    click_action: "https://shopcart-vue.firebaseapp.com",
+                    icon: "dist/firebase-logo.png"
+                }
             },
             token: userToken
         };

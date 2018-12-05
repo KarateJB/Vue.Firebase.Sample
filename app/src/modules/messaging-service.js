@@ -4,11 +4,9 @@ export default class MessagingService {
     constructor() {
 
         this.messaging = window.firebaseMessaging;
-        // Add the public key generated from the console
         this.messaging.usePublicVapidKey(
             "BHtEpd1DaSJwKYZwvd-MpXIu37Egpj_EJh9yWyJBjOqgMXr5wVazK5NZzZh-ImwuFkJJPObgYmbiQlzAiXjCHPw"
         );
-
     }
 
     /* Request user's permission */
@@ -51,8 +49,6 @@ export default class MessagingService {
 
     /* Delete Instance ID token */
     async deleteTokenAsync() {
-        console.log('class', this.messaging);
-
         var vm = this;
 
         vm.messaging.getToken().then(function (currentToken) {

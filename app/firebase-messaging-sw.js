@@ -14,9 +14,6 @@ firebase.initializeApp({
 // messages.
 const messaging = firebase.messaging();
 
-console.log("messaging", messaging);
-
-
 
 // If you would like to customize notifications that are received in the
 // background (Web app is closed or not in browser focus) then you should

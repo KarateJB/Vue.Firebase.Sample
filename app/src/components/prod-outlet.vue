@@ -29,18 +29,19 @@
 import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 import messagingService from "../modules/messaging-service";
+import { setTimeout, setInterval } from "timers";
+import MessagingService from "../modules/messaging-service";
 
 export default {
   name: "prod-outlet",
   data() {
     return {
-      count: 0
+      user: null
     };
   },
   methods: {
     clear() {
       store.dispatch("clear");
-      console.log(store.state);
       this.$router.replace("/prods");
     },
     async setFbMessaging() {
@@ -53,9 +54,6 @@ export default {
       await msgService.watchTokenChangesAsync();
 
       return msgService.getTokenAsync();
-
-      //Delete token test
-      //msgService.deleteTokenAsync();
     },
     pushMsg(token, user) {
       console.log("Start push msg with token: " + token);
@@ -63,10 +61,10 @@ export default {
         .get(
           "https://us-central1-shopcart-vue.cloudfunctions.net/sendBookingMsg",
           {
-            headers: { 
-              "token": token,
+            headers: {
+              token: token,
               "user-name": user
-               }
+            }
           }
         )
         .then(result => {
@@ -74,18 +72,30 @@ export default {
         });
     }
   },
-  mounted() {
-    let userName = "Anonymous";
-    if(firebaseAuth.currentUser){
-      userName = firebaseAuth.currentUser.displayName;
-    }
+  created() {
+    var vm = this;
 
+    firebaseAuth.onAuthStateChanged(user => {
+      let userName = "Anonymous";
+      if (user) {
+        userName = user.displayName;
+        this.user = user;
+      }
 
-    this.setFbMessaging().then(token => {
-      console.log("Token=", token);
-      console.log("User=" + userName);
-      this.pushMsg(token, userName);
+      vm.setFbMessaging().then(token => {
+        console.log("Token=", token);
+        console.log("User=" + userName);
+
+        setTimeout(() => {
+          vm.pushMsg(token, userName);
+        }, 2000);
+      });
     });
+
+  },
+  destroyed() {
+    //Delete token test
+    // msgService.deleteTokenAsync();
   }
 };
 </script>
