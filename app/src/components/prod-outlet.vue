@@ -41,25 +41,39 @@ export default {
       console.log(store.state);
       this.$router.replace("/prods");
     },
-    setFbMessaging() {
-      
+    async setFbMessaging() {
       let msgService = new messagingService();
 
       //Request permission
-      msgService.requestPermissionAsync();
+      await msgService.requestPermissionAsync();
 
       //Watch token changes
-      msgService.watchTokenChangesAsync();
+      await msgService.watchTokenChangesAsync();
 
-      msgService.getTokenAsync().then(token => {
-        console.log("Token:", token);
-        //Delete token test
-        msgService.deleteTokenAsync();
-      })
+      return msgService.getTokenAsync();
+
+      //Delete token test
+      //msgService.deleteTokenAsync();
+    },
+    pushMsg(token) {
+      console.log("Start push msg with token: " + token);
+      this.axios
+        .get(
+          "https://us-central1-shopcart-vue.cloudfunctions.net/sendBookingMsg",
+          {
+            headers: { token: token }
+          }
+        )
+        .then(result => {
+          console.log(result);
+        });
     }
   },
   mounted() {
-    this.setFbMessaging();
+    this.setFbMessaging().then(token => {
+      console.log("Token", token);
+      this.pushMsg(token);
+    });
   }
 };
 </script>

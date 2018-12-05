@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import VueFire from 'vuefire'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 /* Components */
 import Login from './components/login'
 import ProdOutlet from './components/prod-outlet'
@@ -52,6 +55,9 @@ Vue.use(VueLoading, vueLoadingOverlayConfig);
 
 //vuex
 Vue.use(Vuex);
+
+//vue-axios
+Vue.use(VueAxios, axios)
 
 //font-awesome
 library.add(faCoffee,faCrosshairs, faHome, faSave, faPlus, faMinus, faShoppingCart,faArrowCircleRight, faGooglePlus);
