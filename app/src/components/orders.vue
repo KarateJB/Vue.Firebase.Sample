@@ -40,7 +40,9 @@ export default {
   // firebase: {
   //   orders: firebaseDb.ref("Demo/orders").orderByChild("customer").equalTo(this.user.email) //bind as an array
   // },
-  methods: {},
+  methods: {
+    
+  },
   created() {
     var vm = this;
 

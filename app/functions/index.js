@@ -16,17 +16,11 @@ admin.initializeApp();
 
 
 exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
-
-
     cors(request, response, () => {
         const userToken = request.get("token");
         const userName = request.get("user-name")
-
-
         //response.send(payload);
         response.end();
-
-
 
         /* Legacy API : https://firebase.google.com/docs/cloud-messaging/admin/legacy-fcm */
         // Notification details.
@@ -63,8 +57,38 @@ exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
                 console.log('Error sending message:', error);
             });
     });
-
-
-
 })
+
+
+exports.sendOrdersMsg = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        // const userToken = request.get("token");
+        const userName = request.get("user-name")
+        const itemsCnt = request.query.itemscnt;
+        //response.send(payload);
+        response.end();
+
+        let message = {
+            webpush: {
+                notification: {
+                    title: "Orders",
+                    body: `${userName} just bought ${itemsCnt} awesome product(s), don't miss the best discount!`,
+                    click_action: "https://shopcart-vue.firebaseapp.com",
+                    icon: "dist/firebase-logo.png"
+                }
+            },
+            topic: "orders"
+        };
+
+        return admin.messaging().send(message)
+            .then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+                console.log('Error sending message:', error);
+            });
+    });
+})
+
 

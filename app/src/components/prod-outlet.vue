@@ -30,7 +30,6 @@ import { store, PUSH, PULL, CLEAR } from "../vuex/shopcart.store.js";
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 import messagingService from "../modules/messaging-service";
 import { setTimeout, setInterval } from "timers";
-import MessagingService from "../modules/messaging-service";
 
 export default {
   name: "prod-outlet",

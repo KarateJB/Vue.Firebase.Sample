@@ -38,6 +38,8 @@
 import { Order } from "../class/Order"
 import appUtil from "../modules/app-util"
 import { store } from "../vuex/shopcart.store.js"
+import messagingService from "../modules/messaging-service";
+import { setTimeout, setInterval } from "timers";
 
 export default {
   name: "shopcart",
@@ -49,15 +51,32 @@ export default {
     }
   },
   methods: {
+    pushOrdersMsg(user, itemsCnt) {
+      console.log(`Start push msg with user: ${user}, items: ${itemsCnt}`);
+      this.axios
+        .get(
+          "https://us-central1-shopcart-vue.cloudfunctions.net/sendOrdersMsg" + "?itemscnt=" + itemsCnt,
+          {
+            headers: {
+              "user-name": user,
+            }
+          }
+        )
+        .then(result => {
+          console.log(result);
+        });
+    },
     sendOrder(){
+        var vm = this;
+
         let newOrder = new Order(
           appUtil.generateUUID(), //id
           firebaseAuth.currentUser.email, //customer email
-          this.shopcart.items,
+          vm.shopcart.items,
           "SAVED"
         );
         
-        let loader = this.$loading.show();
+        let loader = vm.$loading.show();
 
         this.$bindAsObject(
           "fbObject",
@@ -68,8 +87,12 @@ export default {
           .set(newOrder)
           .then(() => {
             loader.hide();
-            this.$toastr.s("The order has been saved!");
-            this.$router.replace("/prods");
+            vm.$toastr.s("The order has been saved!");
+
+            setTimeout(()=>{
+              vm.pushOrdersMsg(firebaseAuth.currentUser.displayName, vm.shopcart.items.length);
+              vm.$router.replace("/prods");
+            }, 2500)
           })
           .catch(e => this.$toastr.e("Error! Access denied!"));
     }
