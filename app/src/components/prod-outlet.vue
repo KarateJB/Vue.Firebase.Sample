@@ -55,11 +55,11 @@ export default {
 
       return msgService.getTokenAsync();
     },
-    pushMsg(token, user) {
+    pushDiscountMsg(token, user) {
       console.log("Start push msg with token: " + token);
       this.axios
         .get(
-          "https://us-central1-shopcart-vue.cloudfunctions.net/sendBookingMsg",
+          "https://us-central1-shopcart-vue.cloudfunctions.net/sendDiscountMsg",
           {
             headers: {
               token: token,
@@ -74,7 +74,26 @@ export default {
   },
   created() {
     var vm = this;
+    
+    //Add callback for receiving FCM
+    firebaseMessaging.onMessage(function(payload) {
+      console.log("Message received. ", payload);
 
+      let notification = payload.notification;
+
+      vm.$toastr.Add({
+        title: notification.title,
+        msg: notification.body,
+        clickClose: true,
+        timeout: 3000, // 3 sec
+        position: "toast-top-full-width",
+        type: "info",
+        preventDuplicates: true,
+        style: {  width: "250px" }
+      });
+    });
+
+    //Start calling Firebase Functions to trigger pushing FCM
     firebaseAuth.onAuthStateChanged(user => {
       let userName = "Anonymous";
       if (user) {
@@ -87,11 +106,10 @@ export default {
         console.log("User=" + userName);
 
         setTimeout(() => {
-          vm.pushMsg(token, userName);
+          vm.pushDiscountMsg(token, userName);
         }, 2000);
       });
     });
-
   },
   destroyed() {
     //Delete token test

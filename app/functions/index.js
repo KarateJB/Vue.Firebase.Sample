@@ -15,7 +15,7 @@ admin.initializeApp();
 // });
 
 
-exports.sendBookingMsg = functions.https.onRequest((request, response) => {
+exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
 
 
     cors(request, response, () => {
