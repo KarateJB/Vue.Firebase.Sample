@@ -45,13 +45,10 @@ export default {
     },
     async setFbMessaging() {
       let msgService = new messagingService();
-
+      // await msgService.deleteTokenAsync();
       //Request permission
       await msgService.requestPermissionAsync();
-
-      //Watch token changes
-      await msgService.watchTokenChangesAsync();
-
+     
       return msgService.getTokenAsync();
     },
     pushDiscountMsg(token, user) {
@@ -73,7 +70,7 @@ export default {
   },
   created() {
     var vm = this;
-    
+
     //Add callback for receiving FCM
     firebaseMessaging.onMessage(function(payload) {
       console.log("Message received. ", payload);
@@ -88,7 +85,7 @@ export default {
         position: "toast-top-full-width",
         type: "info",
         preventDuplicates: true,
-        style: {  width: "250px" }
+        style: { width: "250px" }
       });
     });
 
