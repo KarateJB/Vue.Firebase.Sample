@@ -1,9 +1,6 @@
 const functions = require("firebase-functions")
 const cors = require('cors')({ origin: true });
 const admin = require("firebase-admin")
-// const express = require('express');
-// const app = express();
-// app.use(cors);
 
 admin.initializeApp();
 
@@ -22,7 +19,7 @@ exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
         //response.send(payload);
         response.end();
 
-        /* Legacy API : https://firebase.google.com/docs/cloud-messaging/admin/legacy-fcm */
+        /* Legacy FCM server API : https://firebase.google.com/docs/cloud-messaging/admin/legacy-fcm */
         // Notification details.
         // let payload = {
         //     notification: {
@@ -35,7 +32,7 @@ exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
         // // Send notifications to device
         // return admin.messaging().sendToDevice(userToken, payload);
 
-        /* Node.js messaging API: https://firebase.google.com/docs/cloud-messaging/admin/send-messages */
+        /* Admin FCM API (Node.js): https://firebase.google.com/docs/cloud-messaging/admin/send-messages */
         let message = {
             webpush: {
                 notification: {

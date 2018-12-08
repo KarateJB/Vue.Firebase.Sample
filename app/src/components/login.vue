@@ -53,11 +53,11 @@
                                 Phone number: <label class="control-label">{{ user.phoenNumber || '(no phone number)'}}</label>
                             </td>
                         </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="text-center">
                             Email: <label class="control-label">{{ user.email || '(no email)'}}</label>
                         </td>
-                    </tr>                 
+                    </tr>                  -->
                 </table>
                 <div>
                     <input type="button" class="btn btn-warning" @click="logout" value="Logout" />
