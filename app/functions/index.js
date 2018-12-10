@@ -85,31 +85,117 @@ exports.sendOrdersMsg = functions.https.onRequest((request, response) => {
     });
 })
 
+/* Subscribe topic */
 exports.subscribeTopic = functions.https.onRequest((request, response) => {
-
 
     cors(request, response, () => {
         const userToken = request.get("token");
         const topic = request.query.topic;
 
+        if (userToken) { //Subscribe ONE token to a topic
+
+            //By Google API
+
+            httpClient({
+                url: `https://iid.googleapis.com/iid/v1/${userToken}/rel/topics/${topic}`,
+                method: 'POST',
+                headers: {
+                    Authorization: "key=" + firebaseConfig.serverKey
+                }
+            }, function (err, res, body) {
+                if (err) {
+                    console.log(err);
+                    response.send("Failed to subscribe topic: " + topic);
+                } else {
+                    console.log(res.statusCode, body);
+                    response.send("Successfully subscribed to topic: " + topic);
+                }
+            });
+        }
+        else {  //Subscribe MULTIPLE tokens to a topic
+
+            let userTokens = request.body.tokens; //tokens should be Array
+            // 1. Google API
+            // httpClient({
+            //     url: "https://iid.googleapis.com/iid/v1:batchAdd",
+            //     method: 'POST',
+            //     headers: {
+            //         Authorization: "key=" + firebaseConfig.serverKey
+            //     },
+            //     body: {
+            //         "to": "orders",
+            //         "registration_tokens": userTokens,
+            //     }
+            // }, function (err, res, body) {
+            //     if (err) {
+            //         console.log(err);
+            //         response.send("Failed to subscribe topic: " + topic);
+            //     } else {
+            //         console.log(res.statusCode, body);
+            //         response.send("Successfully subscribed to topic: " + topic);
+            //     }
+            // });
+
+            // 2. Firebase Admin SDK
+            admin.messaging().subscribeToTopic(userTokens, topic)
+                .then(function (response) {
+                    console.log('Successfully subscribed to topic:', response);
+                    response.send("Successfully subscribed to topic: " + topic);
+
+                })
+                .catch(function (err) {
+                    console.error(err);
+                    response.send("Failed to subscribe topic: " + topic);
+                });
+
+           response.end();     
+        }
+    });
+})
+
+
+/* Unsubscribe topic */
+exports.unsubscribeTopic = functions.https.onRequest((request, response) => {
+
+    const userTokens = request.body.tokens; //tokens should be Array
+    const topic = request.query.topic;
+
+    
+    cors(request, response, () => {
+        
+        //1. By Google API
+        let data = '{ "to": "/topics/' + topic + '", "registration_tokens": ' + JSON.stringify(userTokens) + '}';
+        console.log(data);
+
+
         httpClient({
-            url: `https://iid.googleapis.com/iid/v1/${userToken}/rel/topics/${topic}`,
+            url: "https://iid.googleapis.com/iid/v1:batchRemove",
             method: 'POST',
             headers: {
                 Authorization: "key=" + firebaseConfig.serverKey
-            }
+            },
+            body: data
+
         }, function (err, res, body) {
             if (err) {
                 console.log(err);
-                response.send("Failed to subscribe topic: " + topic);
+                response.send("Failed to unsubscribe topic: " + topic);
             } else {
                 console.log(res.statusCode, body);
-                response.send("Successfully subscribed topic: " + topic);
+                response.send("Successfully unsubscribed to topic: " + topic);
             }
         });
 
+        // 2. Firebase Admin SDK
+        // admin.messaging().unsubscribeToTopic(userTokens, topic)
+        //     .then(function (response) {
+        //         console.log('Successfully subscribed to topic:', response);
+        //         response.send("Successfully subscribed to topic: " + topic);
 
-        // response.end();
-
+        //     })
+        //     .catch(function (err) {
+        //         console.error(err);
+        //         response.send("Failed to subscribe topic: " + topic);
+        //     });
     });
 })
