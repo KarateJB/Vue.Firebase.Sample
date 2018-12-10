@@ -1,17 +1,13 @@
 const functions = require("firebase-functions")
-const cors = require('cors')({ origin: true });
 const admin = require("firebase-admin")
+const cors = require("cors")({ origin: true });
+const httpClient = require("request");
+const firebaseConfig = require("./firebase.config.prod")
+
 
 admin.initializeApp();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
-
+/* Send FCM discount message */
 exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const userToken = request.get("token");
@@ -57,6 +53,7 @@ exports.sendDiscountMsg = functions.https.onRequest((request, response) => {
 })
 
 
+/* Send FCM order message to topic: "orders" */
 exports.sendOrdersMsg = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         // const userToken = request.get("token");
@@ -88,4 +85,31 @@ exports.sendOrdersMsg = functions.https.onRequest((request, response) => {
     });
 })
 
+exports.subscribeTopic = functions.https.onRequest((request, response) => {
 
+
+    cors(request, response, () => {
+        const userToken = request.get("token");
+        const topic = request.query.topic;
+
+        httpClient({
+            url: `https://iid.googleapis.com/iid/v1/${userToken}/rel/topics/${topic}`,
+            method: 'POST',
+            headers: {
+                Authorization: "key=" + firebaseConfig.serverKey
+            }
+        }, function (err, res, body) {
+            if (err) {
+                console.log(err);
+                response.send("Failed to subscribe topic: " + topic);
+            } else {
+                console.log(res.statusCode, body);
+                response.send("Successfully subscribed topic: " + topic);
+            }
+        });
+
+
+        // response.end();
+
+    });
+})
