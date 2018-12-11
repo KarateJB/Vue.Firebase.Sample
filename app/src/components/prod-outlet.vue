@@ -35,7 +35,8 @@ export default {
   name: "prod-outlet",
   data() {
     return {
-      user: null
+      user: null,
+      isTokenSentToServer: false
     };
   },
   methods: {
@@ -48,7 +49,9 @@ export default {
       // await msgService.deleteTokenAsync();
       //Request permission
       await msgService.requestPermissionAsync();
-     
+
+      this.isTokenSentToServer = msgService.isTokenSentToServer();
+
       return msgService.getTokenAsync();
     },
     pushDiscountMsg(token, user) {
@@ -60,6 +63,22 @@ export default {
             headers: {
               token: token,
               "user-name": user
+            }
+          }
+        )
+        .then(result => {
+          console.log(result);
+        });
+    },
+    subscribeTopic(token, topic) {
+      console.log("Start subscribe topic with token: " + token);
+      this.axios
+        .get(
+          "https://us-central1-shopcart-vue.cloudfunctions.net/subscribeTopic?topic=" +
+            topic,
+          {
+            headers: {
+              token: token
             }
           }
         )
@@ -102,7 +121,13 @@ export default {
         console.log("User=" + userName);
 
         setTimeout(() => {
+          //Trigger Cloud Functions: sendDiscountMsg
           vm.pushDiscountMsg(token, userName);
+
+          if (!this.isTokenSentToServer) {
+            //Trigger Cloud Functions: subscriibeTopic
+            vm.subscribeTopic(token, "orders");
+          }
         }, 2000);
       });
     });

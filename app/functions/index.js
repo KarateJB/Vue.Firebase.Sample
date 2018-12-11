@@ -85,6 +85,74 @@ exports.sendOrdersMsg = functions.https.onRequest((request, response) => {
     });
 })
 
+/* Send FCM order message to topic: "orders" by watching created new order */
+// exports.sendOrdersMsgByRtdb = functions.database.ref('/Demo/orders/{pushId}')
+//     .onCreate((snapshot, context) => {
+//         // Grab the current value of what was written to the Realtime Database.
+//         const newOrder = snapshot.val();
+
+//         console.info("Push id", context.params.pushId);
+//         console.info("newOrder", newOrder);
+
+
+//         const user = newOrder.customer;
+//         const itemsCnt = newOrder.items.length;
+
+//         let message = {
+//             webpush: {
+//                 notification: {
+//                     title: "Orders",
+//                     body: `${user} just bought ${itemsCnt} awesome product(s), don't miss the best discount!`,
+//                     click_action: "https://shopcart-vue.firebaseapp.com",
+//                     icon: "dist/firebase-logo.png"
+//                 }
+//             },
+//             topic: "orders"
+//         };
+
+//         return admin.messaging().send(message)
+//             .then((response) => {
+//                 // Response is a message ID string.
+//                 console.log('Successfully sent message:', response);
+//             })
+//             .catch((error) => {
+//                 console.log('Error sending message:', error);
+//             });
+//     });
+
+
+
+functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        // const userToken = request.get("token");
+        const userName = request.get("user-name")
+        const itemsCnt = request.query.itemscnt;
+        //response.send(payload);
+        response.end();
+
+        let message = {
+            webpush: {
+                notification: {
+                    title: "Orders",
+                    body: `${userName} just bought ${itemsCnt} awesome product(s), don't miss the best discount!`,
+                    click_action: "https://shopcart-vue.firebaseapp.com",
+                    icon: "dist/firebase-logo.png"
+                }
+            },
+            topic: "orders"
+        };
+
+        return admin.messaging().send(message)
+            .then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+                console.log('Error sending message:', error);
+            });
+    });
+})
+
 /* Subscribe topic */
 exports.subscribeTopic = functions.https.onRequest((request, response) => {
 
@@ -159,7 +227,7 @@ exports.unsubscribeTopic = functions.https.onRequest((request, response) => {
 
 
     cors(request, response, () => {
-        
+
         //1. By Google API
         // let data = '{ "to": "/topics/' + topic + '", "registration_tokens": ' + JSON.stringify(userTokens) + '}';
 
@@ -182,7 +250,7 @@ exports.unsubscribeTopic = functions.https.onRequest((request, response) => {
 
         // 2. Firebase Admin SDK
         response.end();
-        
+
         return admin.messaging().unsubscribeFromTopic(userTokens, topic)
             .then(function (response) {
                 console.log('Successfully subscribed to topic:', response);

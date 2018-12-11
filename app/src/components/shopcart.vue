@@ -90,8 +90,14 @@ export default {
             vm.$toastr.s("The order has been saved!");
 
             setTimeout(()=>{
+
+              //Push a message to others.
+              //If you enable cloud function: sendOrdersMsgByRtdb, disable this line 
               vm.pushOrdersMsg(firebaseAuth.currentUser.displayName, vm.shopcart.items.length);
+              
+              //Redirect
               vm.$router.replace("/prods");
+
             }, 2500)
           })
           .catch(e => this.$toastr.e("Error! Access denied!"));
