@@ -63,7 +63,7 @@ Drag or select a picture of the product to save it to [Firebase Cloud Storage](h
 
 Supports FCM([Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/)) for real-time message from [Cloud Functions](https://firebase.google.com/docs/functions/).
 
-![](assets/007.png)
+<img src="assets/007.png" width="50%" height="50%">
 
 
 
@@ -220,6 +220,9 @@ $ firebase use {alias name}
 ```
 
 > Have fun and if there are any questions, you can create an issue on [Github](C:\Users\ppipp\Documents\JB\Blogs\KarateJB\Vue.Firebase.Sample).
+
+
+
 
 
 
