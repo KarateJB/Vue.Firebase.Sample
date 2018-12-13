@@ -219,11 +219,16 @@ Or switch to the other one.
 $ firebase use {alias name}
 ```
 
+
+
+---
+
 > Have fun and if there are any questions, you can create an issue on [Github](C:\Users\ppipp\Documents\JB\Blogs\KarateJB\Vue.Firebase.Sample).
 
 
-
-
+<br />
+<br />
+<br />
 
 
 # License
