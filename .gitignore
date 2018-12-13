@@ -1,4 +1,5 @@
 # compiled output
+dist
 /dist
 /tmp
 
@@ -14,6 +15,12 @@ node_modules/
 .classpath
 *.launch
 .settings/
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
 
 # misc
 /.sass-cache
@@ -28,8 +35,23 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
+npm-debug.log
+firebase-debug.log
+yarn-error.log
 */**/*.prod.js
 */**/package.lock.json
+
+# Prod config
+*.prod.*
+
+
+# But track these
+!webpack.config.prod.js
+
+
+
+
+
